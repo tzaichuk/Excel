@@ -1,0 +1,106 @@
+Sub ticker_volume()
+
+  
+    ' Name cells where results will be shown
+  
+    Range("I1").Value = "Ticker"
+  Range("J1").Value = "Total Stock Volume"
+
+  
+    ' Set an initial variable for holding the ticker name
+  
+    Dim Ticker_Name As String
+
+  
+    ' Set an initial variable for holding the total per ticker name
+  
+    Dim Volume_Total As Double
+  
+    Volume_Total = 0
+
+  
+    ' Keep track of the location for each credit card brand in the summary table
+  
+    Dim Summary_Table_Row As Integer
+  
+    Summary_Table_Row = 2
+
+  
+    ' Loop through all of the years
+
+  
+    NumRows = Range("A1", Range("A1").End(xlDown)).Rows.Count
+  
+    For i = 2 To NumRows
+    
+    
+        Dim firstYear As String
+    
+        Dim secondYear As String
+    
+        firstYear = Left(Cells(i, 2).Value, 4)
+    
+        secondYear = Left(Cells(i + 1, 2).Value, 4)
+    
+        If firstYear <> secondYear Then
+     
+            ' Loop through all stocks
+      
+            For j = 2 To NumRows
+        
+                ' Check if we are still within the same stock, if it is not...
+        
+                If Cells(j + 1, 1).Value <> Cells(j, 1).Value Then
+
+          
+                    ' Set the Stock name
+          
+                    Stock_Name = Cells(j, 1).Value
+    
+          
+                    ' Add to the Volume Total
+          
+                    Volume_Total = Volume_Total + Cells(j, 7).Value
+
+          
+                    ' Print the Stock Name in the Summary Table
+          
+                    Range("I" & Summary_Table_Row).Value = Stock_Name
+
+          
+                    ' Print the Volume Total to the Summary Table
+          
+                    Range("J" & Summary_Table_Row).Value = Volume_Total
+
+          
+                    ' Add one to the summary table row
+          
+                    Summary_Table_Row = Summary_Table_Row + 1
+      
+          
+                    ' Reset the Brand Total
+
+                    Volume_Total = 0
+
+        
+                ' If the cell immediately following a row is the same brand...
+        
+            	Else
+
+          
+               	  ' Add to the Brand Total
+          
+                  Volume_Total = Volume_Total + Cells(j, 7).Value
+
+        
+                End If
+
+      
+	    Next j
+    
+        End If
+  
+    Next i
+
+
+End Sub
